@@ -17,18 +17,53 @@ int main(int argc, char** argv)
     printf("encoded string is: %s", encodedString);
 }
 
-char* encodeRot13String(char* s)
+
+
+
+
+
+
+char* concatenate(char* str1, char* str2)
+
 {
-    //how big will my output be?
-    int length = stringLength(s);
-    char* answer = (char*)malloc(length * (int)sizeof(char));
-    for(int i = 0; i < length; i++)
+
+    int str1Length = stringLength(str1);
+
+    int str2Length = stringLength(str2);
+
+    int totalLength = str1Length + str2Length;
+
+    char* ans = (char*)malloc(totalLength * (int)sizeof(char));
+
+    for(int i = 0; i < totalLength; i++)
+
     {
-        char charToCat  = encodeRot13(*(s + i));
-        answer = strncat(answer, &charToCat, 1);
+
+        if(i < str1Length)
+
+        {
+
+            ans[i] = str1[i];
+
+        }
+
+        else
+
+        {
+
+            ans[i] = str2[i - str1Length];
+
+        }
+
     }
-    return answer;
+
+    return ans;
+
 }
+
+
+
+
 
 int stringLength(char* s)
 {
@@ -65,4 +100,19 @@ int indexOf(char c, char* s)
         }
     }
     return -1;
+}
+
+char* encodeRot13String(char* s)
+{
+    //how big will my output be?
+    int length = stringLength(s);
+    char* answer = (char*)malloc(length * (int)sizeof(char));
+    for(int i = 0; i < length; i++)
+    {
+        char* charToCat = (char*)malloc(1);
+        charToCat[0] = encodeRot13(*(s + i));
+        //char charToCat  = encodeRot13(s + i);
+        answer = concatenate(answer, charToCat);
+    }
+    return answer;
 }
